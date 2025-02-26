@@ -1,0 +1,19 @@
+<div class="stores">
+  <header>
+    <h2>Minhas lojas</h2>
+
+    <app-button
+      label="Criar nova loja"
+      variant="tertiary"
+      iconName="plus-circle"
+    />
+  </header>
+
+  @if (stores$ | async; as response) {
+    @for (store of response.stores; track store.store_slug) {
+      <app-store [store]="store" />
+    }
+  } @else {
+    <app-loading />
+  }
+</div>

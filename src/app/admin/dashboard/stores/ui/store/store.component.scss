@@ -1,0 +1,39 @@
+.store-box {
+  background-color: #ffffff;
+  color: var(--secondary-text-color);
+  padding: 1.25rem;
+  border: 1px solid var(--lighten);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 340px;
+
+  .store-box-link {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .store-box-schedule {
+    color: var(--tertiary);
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    div {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .store-box-button-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}

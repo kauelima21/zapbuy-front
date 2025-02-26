@@ -1,0 +1,47 @@
+<div class="account-confirm">
+  <div class="account-confirm-main">
+    <div class="account-confirm-main-content">
+      <h1>Confirmar conta</h1>
+
+      <p>Acesse seu e-mail e insira o código enviado para confirmar sua conta</p>
+
+      <form
+        [formGroup]="accountConfirmForm"
+        (ngSubmit)="handleAccountConfirm()"
+        class="account-confirm-main-content-form"
+      >
+        <div>
+          <label for="confirmationCode">Código de verificação</label>
+          <input
+            id="confirmationCode"
+            formControlName="confirmation_code"
+            placeholder="000000"
+            [class.input-error]="accountConfirmForm.get('confirmation_code')?.touched && accountConfirmForm.get('confirmation_code')?.invalid"
+          >
+          @if (accountConfirmForm.get("confirmation_code")?.touched) {
+            @if (accountConfirmForm.get("confirmation_code")?.hasError("required")) {
+              <p class="form-error-message">O campo é obrigatório.</p>
+            }
+            @if (accountConfirmForm.get("confirmation_code")?.hasError("pattern")) {
+              <p class="form-error-message">O código precisa ter 6 dígitos e apenas números.</p>
+            }
+          }
+        </div>
+
+        @if (hasError()) {
+          <p class="form-error-message">{{errorMessage}}</p>
+        }
+
+        <app-button
+          label="Enviar código"
+          [isDisabled]="accountConfirmForm.invalid || isLoading()"
+          [isLoading]="isLoading()"
+        />
+      </form>
+    </div>
+  </div>
+
+  <div class="account-confirm-image">
+    <img src="imgs/account-confirm.svg" alt="account-confirm image">
+  </div>
+</div>

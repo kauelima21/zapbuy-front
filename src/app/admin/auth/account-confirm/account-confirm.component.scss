@@ -1,0 +1,65 @@
+.account-confirm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+
+  .account-confirm-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+    align-items: center;
+    color: var(--secondary);
+
+    .account-confirm-main-content {
+      padding: 1.25rem;
+      border: 1px solid var(--tertiary);
+      border-radius: 0.5rem;
+      background-color: #fff;
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 0.875rem;
+      }
+
+      .account-confirm-main-content-form {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        label {
+          font-size: 0.875rem;
+        }
+
+        input {
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+          border: 1px solid var(--tertiary);
+          width: 100%;
+          outline: none;
+
+          &:focus {
+            border-color: var(--primary);
+          }
+        }
+      }
+    }
+  }
+
+  .account-confirm-image {
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+}

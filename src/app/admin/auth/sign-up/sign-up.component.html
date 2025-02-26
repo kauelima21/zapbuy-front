@@ -1,0 +1,81 @@
+<div class="sign-up">
+  <div class="sign-up-main">
+    <div class="sign-up-main-content">
+      <h1>Cadastre-se</h1>
+
+      <p>Crie sua conta agora e comece a gerenciar suas lojas</p>
+
+      <form
+        [formGroup]="signUpForm"
+        (ngSubmit)="handleSignUp(signUpForm.getRawValue())"
+        class="sign-up-main-content-form"
+      >
+        <div>
+          <label for="givenName">Seu nome</label>
+          <input
+            id="givenName"
+            formControlName="given_name"
+            type="email"
+            placeholder="John"
+          >
+        </div>
+
+        <div>
+          <label for="familyName">Seu sobrenome</label>
+          <input
+            id="familyName"
+            formControlName="family_name"
+            type="email"
+            placeholder="Doe"
+          >
+        </div>
+
+        <div>
+          <label for="email">Seu melhor e-mail</label>
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            placeholder="example@email.com"
+          >
+        </div>
+
+        <div>
+          <label for="password">Sua senha de acesso</label>
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
+            placeholder="**********"
+          >
+        </div>
+
+        <div>
+          <label for="passwordConfirm">Repita a senha de acesso</label>
+          <input
+            id="passwordConfirm"
+            formControlName="password_confirm"
+            type="password"
+            placeholder="**********"
+          >
+        </div>
+
+        @if (hasError()) {
+          <p class="form-error-message">{{errorMessage}}</p>
+        }
+
+        <app-button
+          label="Criar conta"
+          [isDisabled]="signUpForm.invalid || isLoading()"
+          [isLoading]="isLoading()"
+        />
+      </form>
+    </div>
+
+    <p>Já possui uma conta? Clique <a routerLink="/auth/sign-in">aqui</a> e entre agora mesmo!</p>
+  </div>
+
+  <div class="sign-up-image">
+    <img src="imgs/sign-up.svg" alt="sign-up image">
+  </div>
+</div>

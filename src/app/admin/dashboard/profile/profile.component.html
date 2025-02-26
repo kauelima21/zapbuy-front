@@ -1,0 +1,5 @@
+@if (profile$ && profile$ | async; as response) {
+  {{response.user.email}}
+} @else {
+  <app-loading />
+}

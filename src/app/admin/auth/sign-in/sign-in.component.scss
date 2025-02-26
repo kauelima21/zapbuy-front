@@ -1,9 +1,9 @@
-.sign-up {
+.sign-in {
   display: grid;
   grid-template-columns: 1fr 1fr;
   height: 100vh;
 
-  .sign-up-main {
+  .sign-in-main {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,7 +20,7 @@
       }
     }
 
-    .sign-up-main-content {
+    .sign-in-main-content {
       padding: 1.25rem;
       border: 1px solid var(--tertiary);
       border-radius: 0.5rem;
@@ -34,7 +34,7 @@
         font-size: 0.875rem;
       }
 
-      .sign-up-main-content-form {
+      .sign-in-main-content-form {
         margin-top: 2rem;
         display: flex;
         flex-direction: column;
@@ -61,29 +61,13 @@
             border-color: var(--primary);
           }
         }
-
-        button {
-          border: none;
-          color: #fff;
-          background-color: var(--primary);
-          font-size: 1rem;
-          font-weight: 600;
-          padding: 0.5rem 1rem;
-          border-radius: 0.5rem;
-          width: 100%;
-          cursor: pointer;
-
-          &:hover {
-            opacity: 0.9;
-            transition: 0.3s;
-          }
-        }
       }
     }
   }
 
-  .sign-up-image {
+  .sign-in-image {
     background-color: #fb6c42;
+
     img {
       max-width: 100%;
       max-height: 100%;

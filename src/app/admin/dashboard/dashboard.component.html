@@ -1,0 +1,51 @@
+<header class="dashboard-header">
+  <div class="dashboard-header-welcome-message">
+    <span>👋🏻 Bem-vindo, {{profile()?.user?.given_name}}!</span>
+  </div>
+
+  <nav class="dashboard-header-nav">
+    <h1>zapbuy</h1>
+
+    <div class="dashboard-header-nav-profile">
+      <i class="ph ph-user"></i>
+      <span>{{profile()?.user?.given_name}} {{profile()?.user?.family_name}}</span>
+    </div>
+  </nav>
+</header>
+
+<main class="dashboard-main">
+  <aside class="dashboard-main-aside">
+<!--    <h2>Menu</h2>-->
+
+    <nav class="dashboard-main-aside-nav">
+      <ul class="dashboard-main-aside-nav-ul">
+        <li>
+          <a routerLink="minhas-lojas" routerLinkActive="active">
+            <i class="ph ph-building"></i>
+            <span>Minhas lojas</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="produtos" routerLinkActive="active">
+            <i class="ph ph-basket"></i>
+            <span>Produtos</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="meu-perfil" routerLinkActive="active">
+            <i class="ph ph-user"></i>
+            <span>Meu perfil</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="sair" routerLinkActive="active">
+            <i class="ph ph-sign-out"></i>
+            <span>Sair</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <router-outlet />
+</main>

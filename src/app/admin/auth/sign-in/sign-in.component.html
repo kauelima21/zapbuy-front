@@ -1,0 +1,69 @@
+<div class="sign-in">
+  <div class="sign-in-main">
+    <div class="sign-in-main-content">
+      <h1>Entrar</h1>
+
+      <p>Entre agora e comece a gerenciar suas lojas</p>
+
+      <form
+        [formGroup]="signInForm"
+        (ngSubmit)="handleSignIn(signInForm.getRawValue())"
+        class="sign-in-main-content-form"
+      >
+        <div>
+          <label for="email">Seu e-mail</label>
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            placeholder="example@email.com"
+            [class.input-error]="signInForm.get('email')?.touched && signInForm.get('email')?.invalid"
+          >
+          @if (signInForm.get("email")?.touched) {
+            @if (signInForm.get("email")?.hasError("required")) {
+              <p class="form-error-message">O campo é obrigatório.</p>
+            }
+            @if (signInForm.get("email")?.hasError("email")) {
+              <p class="form-error-message">O valor precisa ser um e-mail válido.</p>
+            }
+          }
+        </div>
+
+        <div>
+          <label for="password">Sua senha de acesso</label>
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
+            placeholder="**********"
+            [class.input-error]="signInForm.get('password')?.touched && signInForm.get('password')?.invalid"
+          >
+          @if (signInForm.get("password")?.touched) {
+            @if (signInForm.get("password")?.hasError("required")) {
+              <p class="form-error-message">O campo é obrigatório.</p>
+            }
+            @if (signInForm.get("password")?.hasError("pattern")) {
+              <p class="form-error-message">A senha não segue o padrão.</p>
+            }
+          }
+        </div>
+
+        @if (hasError()) {
+          <p class="form-error-message">{{errorMessage}}</p>
+        }
+
+        <app-button
+          label="Entrar"
+          [isDisabled]="signInForm.invalid || isLoading()"
+          [isLoading]="isLoading()"
+        />
+      </form>
+    </div>
+
+    <p>Não possui uma conta? Clique <a routerLink="/auth/sign-up">aqui</a> e crie uma agora mesmo!</p>
+  </div>
+
+  <div class="sign-in-image">
+    <img src="imgs/sign-in.svg" alt="sign-in image">
+  </div>
+</div>

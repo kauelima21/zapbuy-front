@@ -1,0 +1,14 @@
+<button
+  [type]="type()"
+  [disabled]="isDisabled()"
+  [class]="variant()"
+>
+  @if (isLoading()) {
+    <i class="ph ph-circle-notch button-loading"></i>
+  } @else {
+    @if (iconName()) {
+      <i [class]="'ph ph-' + iconName()"></i>
+    }
+    <span>{{ label() }}</span>
+  }
+</button>

@@ -1,0 +1,24 @@
+<div class="store-box">
+  <h3>{{store().store_name}}</h3>
+
+  <a class="store-box-link">
+    <span>http://localhost:4200/{{store().store_slug}}</span>
+    <i class="ph ph-copy"></i>
+  </a>
+
+  <div class="store-box-schedule">
+    <div>
+      <i class="ph ph-person-simple-walk"></i>
+      {{store().work_days.start_day}} - {{store().work_days.last_day}}
+    </div>
+    <div>
+      <i class="ph ph-clock"></i>
+      {{store().work_hours.start_hour}} - {{store().work_hours.last_hour}}
+    </div>
+  </div>
+
+  <div class="store-box-button-group">
+    <app-button label="Editar" iconName="pencil-simple-line" />
+    <app-button label="Inativar" iconName="x-circle" variant="secondary" />
+  </div>
+</div>
