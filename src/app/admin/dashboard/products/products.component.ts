@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ProductsService } from './data-access/products.service';
 import { AsyncPipe } from '@angular/common';
 import { LoadingComponent } from '@app/shared/ui/loading/loading.component';
-import { Observable, Subscription } from 'rxjs';
+import { concatMap, Observable, Subscription } from 'rxjs';
 import { ProductResponse } from './products';
 import { StoresService } from '@app/shared/data-access/stores.service';
 import { StoreResponse } from '@app/shared/interfaces/stores';
@@ -31,10 +31,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private productsService = inject(ProductsService);
   private storesService = inject(StoresService)
 
-  products$: Observable<{products: ProductResponse[]}> | null = null;
+  products$: Observable<{ products: ProductResponse[] }> | null = null;
   subscription = new Subscription();
 
   stores = signal<StoreResponse[]>([]);
+  currentStoreSlug = signal<string>('')
 
   isProductEditModalOpen = signal(false);
 
@@ -99,9 +100,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
           this.stores.set(data.stores);
 
-          const storeSlug = data.stores[0].store_slug
+          this.currentStoreSlug.set(data.stores[0].store_slug);
 
-          return this.loadProducts(storeSlug);
+          return this.loadProducts();
         })
     );
   }
@@ -110,14 +111,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  refreshProductsListFromSelect({ target }: Event) {
-    const storeSlug = (target as HTMLSelectElement).value;
+  refreshProductsListFromSelect({target}: Event) {
+    this.currentStoreSlug.set((target as HTMLSelectElement).value);
 
-    this.loadProducts(storeSlug);
+    this.loadProducts();
   }
 
-  loadProducts(storeSlug: string) {
-    this.products$ = this.productsService.fetchProducts(storeSlug);
+  loadProducts() {
+    this.products$ = this.productsService.fetchProducts(this.currentStoreSlug());
   }
 
   handleCellAction(event: TableActionEvent) {
@@ -125,6 +126,27 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.isProductEditModalOpen.set(true);
       this.currentProduct.set(event.item as ProductResponse);
     }
+  }
+
+  // mudar para apenas gerar url e upload apenas no fim da acao
+  handleProductImageUpload(productImage: File | null) {
+    if (!productImage || !this.currentProduct()) return;
+
+    this.subscription.add(
+      this.productsService.getUploadUrl(
+        this.currentStoreSlug(),
+        this.currentProduct()?.product_id ?? '',
+        productImage.name,
+        productImage.type
+      ).pipe(
+          concatMap(
+            ({ url }) => this.productsService.uploadProductImage(url, productImage)
+          )
+        ).subscribe(res => {
+          console.log(res);
+          console.log('uplodou');
+      })
+    );
   }
 
   handleModalState(event: string) {

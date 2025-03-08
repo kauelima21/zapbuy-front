@@ -4,6 +4,7 @@ export enum StorageEnum {
   authStorageKey = 'zapbuy:auth',
   profileStorageKey = 'zapbuy:profile',
   storesStorageKey = 'zapbuy:stores',
+  productsStorageKey = 'zapbuy:products',
 }
 
 export enum AuthEnum {

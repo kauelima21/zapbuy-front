@@ -1,54 +1,70 @@
-<form class="product-edit-form">
-  <div class="product-edit-form-item">
-    <label for="name">Nome do produto</label>
+<div class="product-edit">
+  <div class="product-edit-uploads">
     <input
-      id="name"
-      [value]="product()?.name"
-    >
+      #inputFile
+      type="file"
+      (change)="setProductImage($event)"
+    />
+    <app-button
+      label="Enviar imagem"
+      variant="secondary"
+      iconName="upload"
+      (click)="inputFile.click()"
+    />
   </div>
 
-  <div class="product-edit-form-item">
-    <label for="description">Descrição do produto</label>
-    <textarea
-      id="description"
-      [value]="product()?.description"
-    ></textarea>
-  </div>
-
-  <div class="product-edit-form-item">
-    <label for="price">Preço em centavos</label>
-    <input
-      id="price"
-      type="number"
-      [value]="product()?.price_in_cents"
-    >
-  </div>
-
-  <div class="product-edit-form-item product-status">
-    <label>Status</label>
-    <div>
+  <form class="product-edit-form">
+    <div class="product-edit-form-item">
+      <label for="name">Nome do produto</label>
       <input
-        id="active"
-        name="status"
-        type="radio"
-        value="active"
-        [checked]="product()?.status === 'active'"
+        id="name"
+        [value]="product()?.name"
       >
-      <label for="active">Ativo</label>
     </div>
-    <div>
-      <input
-        id="inactive"
-        name="status"
-        type="radio"
-        value="inactive"
-        [checked]="product()?.status === 'inactive'"
-      >
-      <label for="inactive">Inativo</label>
-    </div>
-  </div>
 
-  <app-button
-    label="Atualizar"
-  />
-</form>
+    <div class="product-edit-form-item">
+      <label for="description">Descrição do produto</label>
+      <textarea
+        id="description"
+        [value]="product()?.description"
+      ></textarea>
+    </div>
+
+    <div class="product-edit-form-item">
+      <label for="price">Preço em centavos</label>
+      <input
+        id="price"
+        type="number"
+        [value]="product()?.price_in_cents"
+      >
+    </div>
+
+    <div class="product-edit-form-item product-status">
+      <label>Status</label>
+      <div>
+        <input
+          id="active"
+          name="status"
+          type="radio"
+          value="active"
+          [checked]="product()?.status === 'active'"
+        >
+        <label for="active">Ativo</label>
+      </div>
+      <div>
+        <input
+          id="inactive"
+          name="status"
+          type="radio"
+          value="inactive"
+          [checked]="product()?.status === 'inactive'"
+        >
+        <label for="inactive">Inativo</label>
+      </div>
+    </div>
+
+    <app-button
+      label="Atualizar"
+    />
+  </form>
+</div>

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { ProductResponse } from '@app/admin/dashboard/products/products';
 import { ButtonComponent } from '@app/shared/ui/button/button.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,4 +14,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class ProductEditComponent {
   product = input.required<ProductResponse | null>();
+  productImage = signal<File | null>(null);
+  uploadImageEvent = output<File | null>();
+
+  handleUploadImageEvent() {
+    if (this.productImage()) {
+      this.uploadImageEvent.emit(this.productImage());
+    }
+  }
+
+  setProductImage({ target }: Event) {
+    const element = target as HTMLInputElement;
+
+    if (element.files && element.files.length > 0) {
+      const file = element.files[0];
+      this.productImage.set(file);
+
+      this.handleUploadImageEvent();
+    }
+  }
 }

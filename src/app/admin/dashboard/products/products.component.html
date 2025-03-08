@@ -52,6 +52,9 @@
     [modalTitle]="'Editar produto'"
     (modalState)="handleModalState($event)"
   >
-    <app-product-edit [product]="currentProduct()" />
+    <app-product-edit
+      [product]="currentProduct()"
+      (uploadImageEvent)="handleProductImageUpload($event)"
+    />
   </app-modal>
 }
