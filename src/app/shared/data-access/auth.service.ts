@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   getAuthToken() {
-    return this.localStorage.getItem(StorageEnum.authStorageKey, false);
+    return this.localStorage.getItem(StorageEnum.authStorageKey);
   }
 
   setAuthToken(token: string) {
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   setProfile(data: ProfileResponse) {
-    this.localStorage.setItem(StorageEnum.profileStorageKey, data);
+    this.localStorage.setItem(StorageEnum.profileStorageKey, data, true);
   }
 
   removeProfile() {

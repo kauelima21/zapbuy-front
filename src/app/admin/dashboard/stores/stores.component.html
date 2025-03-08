@@ -4,16 +4,23 @@
 
     <app-button
       label="Criar nova loja"
-      variant="tertiary"
+      variant="secondary"
       iconName="plus-circle"
     />
   </header>
 
-  @if (stores$ | async; as response) {
-    @for (store of response.stores; track store.store_slug) {
-      <app-store [store]="store" />
+  @if (stores$) {
+    @if (stores$ | async; as response) {
+      @for (store of response.stores; track store.store_slug) {
+        <app-store [store]="store" />
+      } @empty {
+        <app-not-found>
+          Não existem lojas cadastradas.
+          Tente adicionar uma nova usando a opção "Criar nova loja".
+        </app-not-found>
+      }
+    } @else {
+      <app-loading />
     }
-  } @else {
-    <app-loading />
   }
 </div>

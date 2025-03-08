@@ -26,6 +26,12 @@ export interface AccountConfirmRequest {
   email: string;
 }
 
+export interface ResetPasswordRequest {
+  confirmation_code: string;
+  email: string;
+  password: string;
+}
+
 export interface ProfileResponse {
   user: {
     user_id: string;

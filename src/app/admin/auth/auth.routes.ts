@@ -14,6 +14,10 @@ export const AUTH_ROUTES: Route[] = [
     loadComponent: () => import('./account-confirm/account-confirm.component').then(m => m.AccountConfirmComponent),
   },
   {
+    path: 'forgot-password',
+    loadComponent: () => import('./forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+  },
+  {
     path: '',
     redirectTo: 'sign-in',
     pathMatch: 'full',

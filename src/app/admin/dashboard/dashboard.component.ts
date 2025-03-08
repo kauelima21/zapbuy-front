@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ProfileService } from '@app/shared/data-access/profile.service';
 import { Subscription } from 'rxjs';
 import { ProfileResponse } from '@app/shared/interfaces/auth';
+import {AuthService} from '@app/shared/data-access/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ import { ProfileResponse } from '@app/shared/interfaces/auth';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   profileService = inject(ProfileService);
+  authService = inject(AuthService);
   subscription = new Subscription();
   profile = signal<ProfileResponse | null>(null);
 
@@ -34,5 +36,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  logOut(): void {
+    this.authService.signOut();
   }
 }

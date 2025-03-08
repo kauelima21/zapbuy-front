@@ -2,6 +2,7 @@
   [type]="type()"
   [disabled]="isDisabled()"
   [class]="variant()"
+  (click)="handleClick($event)"
 >
   @if (isLoading()) {
     <i class="ph ph-circle-notch button-loading"></i>

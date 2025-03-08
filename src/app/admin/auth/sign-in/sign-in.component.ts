@@ -6,6 +6,7 @@ import { ButtonComponent } from '@app/shared/ui/button/button.component';
 import { SignInService } from './data-access/sign-in.service';
 import { AuthService } from '@app/shared/data-access/auth.service';
 import { Subscription } from 'rxjs';
+import {AuthEnum} from '@app/shared/utils/constants';
 
 @Component({
   selector: 'app-sign-in',
@@ -29,7 +30,7 @@ export class SignInComponent implements OnDestroy {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [
       Validators.required,
-      Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{10,}$')]
+      Validators.pattern(AuthEnum.passwordPattern)]
     ],
   });
 

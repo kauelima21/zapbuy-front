@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -13,4 +13,10 @@ export class ButtonComponent {
   label = input.required();
   isLoading = input(false);
   isDisabled = input(false);
+
+  clickFn = output<Event>();
+
+  handleClick(event: Event) {
+    this.clickFn.emit(event);
+  }
 }

@@ -5,3 +5,7 @@ export enum StorageEnum {
   profileStorageKey = 'zapbuy:profile',
   storesStorageKey = 'zapbuy:stores',
 }
+
+export enum AuthEnum {
+  passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{10,}$'
+}

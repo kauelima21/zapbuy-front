@@ -11,6 +11,6 @@ export class ProductsService {
 
   fetchProducts(storeSlug: string) {
     return this.httpClient
-      .get<{products: ProductResponse[]}>(`${BASE_URL}/stores/${storeSlug}/products`);
+      .get<{products: ProductResponse[]}>(`${BASE_URL}/admin/stores/${storeSlug}/products`);
   }
 }

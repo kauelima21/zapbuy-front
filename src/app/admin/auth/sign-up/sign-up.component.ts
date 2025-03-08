@@ -5,6 +5,7 @@ import { SignUpRequest } from '@app/shared/interfaces/auth';
 import { SignUpService } from './data-access/sign-up.service';
 import { ButtonComponent } from '@app/shared/ui/button/button.component';
 import { Subscription } from 'rxjs';
+import {AuthEnum} from '@app/shared/utils/constants';
 
 @Component({
   selector: 'app-sign-up',
@@ -29,11 +30,11 @@ export class SignUpComponent implements OnDestroy {
     family_name: ['', [Validators.required]],
     password: ['', [
       Validators.required,
-      Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{10,}$')]
+      Validators.pattern(AuthEnum.passwordPattern)]
     ],
     password_confirm: ['', [
       Validators.required,
-      Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{10,}$')]
+      Validators.pattern(AuthEnum.passwordPattern)]
     ],
   });
 
@@ -54,7 +55,7 @@ export class SignUpComponent implements OnDestroy {
           this.isLoading.set(false);
           this.router.navigate(
             ['/auth/account-confirm'],
-            { queryParams: { email: this.signUpForm.get('email') } }
+            { queryParams: { email: this.signUpForm.get('email')?.value } }
           );
         },
         error: err => {

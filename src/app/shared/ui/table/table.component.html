@@ -1,0 +1,81 @@
+<!--filtros-->
+
+<link rel="stylesheet" href="table.component.scss">
+<table class="table-component">
+  <thead class="table-component-head">
+    <tr>
+      @for (colDef of columnDefs(); track colDef) {
+        <th>{{colDef.header}}</th>
+      }
+    </tr>
+  </thead>
+
+  <tbody class="table-component-body">
+    @for (item of data(); track item) {
+      <tr>
+        @for (colDef of columnDefs(); track colDef) {
+          @if (colDef.actionsConfig) {
+            @for (actionItem of colDef.actionsConfig; track actionItem) {
+              <td>
+                <div (click)="handleClick(actionItem.eventName, item)">
+                  @if (actionItem.label) {
+                    <span>{{actionItem.label}}</span>
+                  }
+                  <i
+                    [class.without-label]="!actionItem.label"
+                    [class]="actionItem.icon + ' icon-cell ' + actionItem.type"
+                  ></i>
+                </div>
+              </td>
+            }
+          } @else if (colDef.suppress) {
+            <td
+              (click)="copyValue(item[colDef.field], colDef)"
+              [class.copy]="colDef?.suppressConfig?.copy"
+            >
+              <div>
+                {{getSuppressedValue(item[colDef.field])}}
+                @if (colDef?.suppressConfig?.copy) {
+                  <i class="ph ph-copy"></i>
+                }
+              </div>
+            </td>
+          } @else {
+            @if (!colDef.iconConfig) {
+              @if (colDef.currency) {
+                <td>{{item[colDef.field] / 100 | currency : 'BRL' : 'symbol':'1.2-2'}}</td>
+              } @else {
+                <td>{{item[colDef.field]}}</td>
+              }
+            } @else {
+              @for (iconConfigItem of colDef.iconConfig; track iconConfigItem) {
+                @if (iconConfigItem.value === item[colDef.field]) {
+                  <td style="display: flex; justify-content: center">
+                    <div
+                      [class.icon-labeled]="iconConfigItem.label"
+                      [style.background-color]="iconConfigItem.color + '40'"
+                    >
+                      @if (iconConfigItem.label) {
+                        <span [style.color]="iconConfigItem.color">
+                          {{iconConfigItem.label}}
+                        </span>
+                      }
+                      <i
+                        class="icon-cell"
+                        [class]="iconConfigItem.icon"
+                        [class.without-label]="!iconConfigItem.label"
+                        [style.color]="iconConfigItem.color"
+                      ></i>
+                    </div>
+                  </td>
+                }
+              }
+            }
+          }
+        }
+      </tr>
+    }
+  </tbody>
+</table>
+
+<!--paginação-->

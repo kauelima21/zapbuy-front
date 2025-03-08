@@ -35,6 +35,18 @@ button {
     }
   }
 
+  &.secondary-danger {
+    color: var(--primary);
+    border-color: var(--primary);
+    background-color: #ffffff;
+
+    &:hover {
+      background-color: var(--danger);
+      color: #ffffff;
+      opacity: 1;
+    }
+  }
+
   &.tertiary {
     color: var(--primary);
     background-color: transparent;

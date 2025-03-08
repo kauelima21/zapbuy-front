@@ -12,11 +12,9 @@ import { of } from 'rxjs';
 })
 export class StoresService {
   private httpClient = inject(HttpClient);
-  private authService = inject(AuthService);
   private localStorageService = inject(LocalStorageService);
 
   fetchStores() {
-    const ownerId = this.authService.getProfile().user.user_id;
     const storageStores = this.localStorageService.getItem(StorageEnum.storesStorageKey) as {stores: StoreResponse[]};
 
     if (storageStores) {
@@ -24,9 +22,9 @@ export class StoresService {
     }
 
     return this.httpClient
-      .get<{stores: StoreResponse[]}>(`${BASE_URL}/admin/${ownerId}/stores`)
+      .get<{stores: StoreResponse[]}>(`${BASE_URL}/admin/stores`)
       .pipe(
-        tap(data => this.localStorageService.setItem(StorageEnum.storesStorageKey, data))
+        tap(data => this.localStorageService.setItem(StorageEnum.storesStorageKey, data, true))
       );
   }
 }

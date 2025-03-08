@@ -4,31 +4,35 @@
 
     <app-button
       label="Criar novo produto"
-      variant="tertiary"
+      variant="secondary"
       iconName="plus-circle"
     />
   </header>
 
-  <div class="products-select">
-    <select (change)="refreshProductsListFromSelect($event)">
-      @for (store of stores(); track store.store_slug) {
-        <option [value]="store.store_slug">{{store.store_name}}</option>
-      }
-    </select>
-  </div>
+  @if (stores().length > 0) {
+    <div class="products-select">
+      <select (change)="refreshProductsListFromSelect($event)">
+        @for (store of stores(); track store.store_slug) {
+          <option [value]="store.store_slug">{{store.store_name}}</option>
+        }
+      </select>
+    </div>
+  }
 
   @if (products$) {
     @if (products$ | async; as response) {
-      @for (product of response.products; track product.product_id) {
-        {{product.name}}
-      } @empty {
-        <div class="products-not-found">
-          <i class="ph ph-smiley-x-eyes"></i>
-          <p>
-            Não existem produtos cadastrados para a loja.
-            Tente adicionar novos usando a opção "Criar novo produto".
-          </p>
-        </div>
+      @if (response.products && response.products.length > 0) {
+        <app-table
+          [columnDefs]="tableColumnDefs"
+          [data]="response.products"
+          (cellClickEvent)="handleCellAction($event)"
+        />
+      }
+      @else {
+        <app-not-found>
+          Não existem produtos cadastrados para a loja.
+          Tente adicionar novos usando a opção "Criar novo produto".
+        </app-not-found>
       }
     } @else {
       <app-loading />
@@ -36,6 +40,18 @@
   }
 
   @if (!(stores().length > 0)) {
-    <p>Para acessar produtos, primeiro crie a sua loja.</p>
+    <app-not-found>
+      Não existem lojas cadastradas.
+      Para gerenciar produtos, tente criar uma loja primeiro.
+    </app-not-found>
   }
 </div>
+
+@if (isProductEditModalOpen()) {
+  <app-modal
+    [modalTitle]="'Editar produto'"
+    (modalState)="handleModalState($event)"
+  >
+    <app-product-edit [product]="currentProduct()" />
+  </app-modal>
+}

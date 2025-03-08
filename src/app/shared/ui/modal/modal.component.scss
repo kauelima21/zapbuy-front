@@ -1,0 +1,36 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.5);
+
+  .modal-container {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    color: var(--secondary);
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid var(--tertiary);
+
+      i {
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 100%;
+
+        &:hover {
+          background-color: var(--lighten);
+        }
+      }
+    }
+
+    .modal-content {
+      padding: 1rem;
+    }
+  }
+}

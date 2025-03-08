@@ -17,7 +17,13 @@
             formControlName="given_name"
             type="email"
             placeholder="John"
+            [class.input-error]="signUpForm.get('given_name')?.touched && signUpForm.get('given_name')?.invalid"
           >
+          @if (signUpForm.get("given_name")?.touched) {
+            @if (signUpForm.get("given_name")?.hasError("required")) {
+              <p class="form-error-message">O campo é obrigatório.</p>
+            }
+          }
         </div>
 
         <div>
@@ -27,7 +33,13 @@
             formControlName="family_name"
             type="email"
             placeholder="Doe"
+            [class.input-error]="signUpForm.get('family_name')?.touched && signUpForm.get('family_name')?.invalid"
           >
+          @if (signUpForm.get("family_name")?.touched) {
+            @if (signUpForm.get("family_name")?.hasError("required")) {
+              <p class="form-error-message">O campo é obrigatório.</p>
+            }
+          }
         </div>
 
         <div>
@@ -37,7 +49,16 @@
             formControlName="email"
             type="email"
             placeholder="example@email.com"
+            [class.input-error]="signUpForm.get('email')?.touched && signUpForm.get('email')?.invalid"
           >
+          @if (signUpForm.get("email")?.touched) {
+            @if (signUpForm.get("email")?.hasError("required")) {
+              <p class="form-error-message">O campo é obrigatório.</p>
+            }
+            @if (signUpForm.get("email")?.hasError("email")) {
+              <p class="form-error-message">O valor precisa ser um e-mail válido.</p>
+            }
+          }
         </div>
 
         <div>
@@ -47,7 +68,16 @@
             formControlName="password"
             type="password"
             placeholder="**********"
+            [class.input-error]="signUpForm.get('password')?.touched && signUpForm.get('password')?.invalid"
           >
+          @if (signUpForm.get("password")?.touched) {
+            @if (signUpForm.get("password")?.hasError("required")) {
+              <p class="form-error-message">O campo é obrigatório.</p>
+            }
+            @if (signUpForm.get("password")?.hasError("pattern")) {
+              <p class="form-error-message">A senha não segue o padrão.</p>
+            }
+          }
         </div>
 
         <div>
@@ -57,7 +87,19 @@
             formControlName="password_confirm"
             type="password"
             placeholder="**********"
+            [class.input-error]="signUpForm.get('password_confirm')?.touched && signUpForm.get('password_confirm')?.invalid"
           >
+          @if (signUpForm.get("password_confirm")?.touched) {
+            @if (signUpForm.get("password_confirm")?.hasError("required")) {
+              <p class="form-error-message">O campo é obrigatório.</p>
+            }
+            @if (signUpForm.get("password_confirm")?.hasError("pattern")) {
+              <p class="form-error-message">A senha não segue o padrão.</p>
+            }
+            @if (signUpForm.get("password")?.value != signUpForm.get("password_confirm")?.value) {
+              <p class="form-error-message">As senhas não conferem.</p>
+            }
+          }
         </div>
 
         @if (hasError()) {
