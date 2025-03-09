@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL, StorageEnum } from '@app/shared/utils/constants';
-import { ProductResponse } from '../products';
+import { ProductRequest, ProductResponse } from '../products';
 import { StoreResponse } from '@app/shared/interfaces/stores';
 import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -28,15 +28,21 @@ export class ProductsService {
       );
   }
 
-  getUploadUrl(storeSlug: string, productId: string, fileName: string, fileType: string) {
+  saveProduct(product: ProductRequest, storeSlug: string) {
+    this.localStorageService.removeItem(StorageEnum.productsStorageKey);
+
+    return this.httpClient.post<{product_id: string}>(`${BASE_URL}/admin/stores/${storeSlug}/products`, product);
+  }
+
+  getUploadUrl(storeSlug: string, productId: string, productImage: File | null) {
     return this.httpClient
       .post<{ url: string }>(
         `${BASE_URL}/admin/stores/${storeSlug}/products/${productId}/action/upload`,
-        { file_type: fileType, file_name: fileName }
+        {file_type: productImage?.type, file_name: productImage?.name},
       );
   }
 
-  uploadProductImage(uploadUrl: string, productImage: File) {
-    return this.httpClient.put(uploadUrl, productImage, { headers: {'Content-Type': productImage.type} });
+  uploadProductImage(uploadUrl: string, productImage: File | null) {
+    return this.httpClient.put(uploadUrl, productImage, { headers: {'Content-Type': productImage?.type ?? 'application/octet-stream'} });
   }
 }

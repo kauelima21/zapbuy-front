@@ -1,0 +1,80 @@
+<div class="add-product">
+  <form
+    class="add-product-form"
+    [formGroup]="addProductForm"
+    (ngSubmit)="handleFormSubmit()"
+  >
+    <div class="add-product-form-item item-grow">
+      <label for="name">Nome do produto</label>
+      <input
+        id="name"
+        formControlName="name"
+      >
+    </div>
+
+    <div class="add-product-form-item item-grow">
+      <label for="description">Descrição do produto</label>
+      <textarea
+        id="description"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <div class="add-product-form-item">
+      <label for="price">Preço em centavos</label>
+      <input
+        id="price"
+        type="number"
+        min="0"
+        formControlName="price_in_cents"
+      >
+    </div>
+
+    <div class="add-product-form-item">
+      <label for="category">Categoria</label>
+      <input
+        id="category"
+        formControlName="category"
+      >
+    </div>
+
+    <div class="add-product-uploads item-grow">
+      <input
+        #inputFile
+        type="file"
+        (change)="setProductImage($event)"
+      />
+
+      <app-button
+        label="Enviar imagem"
+        variant="secondary"
+        iconName="upload"
+        (click)="inputFile.click()"
+        [isDisabled]="!!productImage()"
+      />
+
+      @if (productImage()) {
+        <div class="add-product-uploads-selected-file">
+          <span>{{productImage()?.name}}</span>
+          <i class="ph ph-x" (click)="unsetProductImage()"></i>
+        </div>
+      }
+    </div>
+
+    <div class="add-product-form-btn-group">
+      <app-button
+        label="Cancelar"
+        variant="secondary"
+        (click)="handleFormStateEvent('closed', null)"
+      />
+
+      <app-button
+        label="Adicionar produto"
+        type="submit"
+        iconName="plus"
+        [isLoading]="isAddProductFormLoading()"
+        [isDisabled]="!productImage() || addProductForm.invalid"
+      />
+    </div>
+  </form>
+</div>

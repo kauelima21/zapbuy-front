@@ -1,6 +1,6 @@
 <button
   [type]="type()"
-  [disabled]="isDisabled()"
+  [disabled]="isDisabled() || isLoading()"
   [class]="variant()"
   (click)="handleClick($event)"
 >

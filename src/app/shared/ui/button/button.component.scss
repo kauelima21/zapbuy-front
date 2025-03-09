@@ -14,13 +14,13 @@ button {
   transition: 0.3s;
   justify-content: center;
 
-  &:hover {
-    opacity: 0.8;
-  }
-
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    opacity: 0.8;
   }
 
   &.secondary {
@@ -28,7 +28,7 @@ button {
     border-color: var(--primary);
     background-color: #ffffff;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: var(--primary);
       color: #ffffff;
       opacity: 1;
@@ -40,7 +40,7 @@ button {
     border-color: var(--primary);
     background-color: #ffffff;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: var(--danger);
       color: #ffffff;
       opacity: 1;
@@ -51,7 +51,7 @@ button {
     color: var(--primary);
     background-color: transparent;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: var(--primary);
       color: #ffffff;
       opacity: 1;

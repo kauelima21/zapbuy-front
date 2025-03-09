@@ -8,7 +8,7 @@ import { Component, input, output } from '@angular/core';
 })
 export class ButtonComponent {
   variant = input('primary');
-  type = input('submit');
+  type = input('button');
   iconName = input('');
   label = input.required();
   isLoading = input(false);

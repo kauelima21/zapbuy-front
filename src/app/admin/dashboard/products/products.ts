@@ -1,3 +1,10 @@
+export interface ProductRequest {
+  name: string;
+  description: string;
+  price_in_cents: number;
+  category: string;
+}
+
 export interface ProductResponse {
   name: string;
   description: string;

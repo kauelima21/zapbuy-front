@@ -1,20 +1,6 @@
 <div class="product-edit">
-  <div class="product-edit-uploads">
-    <input
-      #inputFile
-      type="file"
-      (change)="setProductImage($event)"
-    />
-    <app-button
-      label="Enviar imagem"
-      variant="secondary"
-      iconName="upload"
-      (click)="inputFile.click()"
-    />
-  </div>
-
   <form class="product-edit-form">
-    <div class="product-edit-form-item">
+    <div class="product-edit-form-item item-grow">
       <label for="name">Nome do produto</label>
       <input
         id="name"
@@ -22,7 +8,7 @@
       >
     </div>
 
-    <div class="product-edit-form-item">
+    <div class="product-edit-form-item item-grow">
       <label for="description">Descrição do produto</label>
       <textarea
         id="description"
@@ -35,11 +21,20 @@
       <input
         id="price"
         type="number"
+        min="0"
         [value]="product()?.price_in_cents"
       >
     </div>
 
-    <div class="product-edit-form-item product-status">
+    <div class="product-edit-form-item">
+      <label for="category">Categoria</label>
+      <input
+        id="category"
+        [value]="product()?.category"
+      >
+    </div>
+
+    <div class="product-edit-form-item item-grow product-status">
       <label>Status</label>
       <div>
         <input
@@ -51,6 +46,7 @@
         >
         <label for="active">Ativo</label>
       </div>
+
       <div>
         <input
           id="inactive"
@@ -63,8 +59,44 @@
       </div>
     </div>
 
-    <app-button
-      label="Atualizar"
-    />
+    <div class="product-edit-uploads item-grow">
+      <input
+        #inputFile
+        type="file"
+        (change)="setProductImage($event)"
+      />
+
+      <app-button
+        label="Enviar imagem"
+        variant="secondary"
+        iconName="upload"
+        (click)="inputFile.click()"
+        [isDisabled]="!!productImage()"
+        [isLoading]="isImageUploading()"
+      />
+
+      @if (productImage()) {
+        <div class="product-edit-uploads-selected-file">
+          <span>{{productImage()?.name}}</span>
+          <i class="ph ph-x" (click)="unsetProductImage()"></i>
+        </div>
+      }
+    </div>
+
+    <div class="product-edit-form-btn-group">
+      <app-button
+        label="Cancelar"
+        variant="secondary"
+        (click)="handleFormStateEvent('closed')"
+      />
+
+      <app-button
+        label="Atualizar"
+        iconName="pencil-simple-line"
+        (click)="handleFormStateEvent('edit')"
+        [isLoading]="isProductEditFormLoading()"
+        [isDisabled]="isImageUploading()"
+      />
+    </div>
   </form>
 </div>

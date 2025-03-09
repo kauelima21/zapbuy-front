@@ -14,13 +14,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class ProductEditComponent {
   product = input.required<ProductResponse | null>();
+  isProductEditFormLoading = input.required<boolean>();
+  isImageUploading = input.required<boolean>();
+
   productImage = signal<File | null>(null);
   uploadImageEvent = output<File | null>();
+  formState = output<{state: string, data: any}>();
 
   handleUploadImageEvent() {
-    if (this.productImage()) {
-      this.uploadImageEvent.emit(this.productImage());
-    }
+    this.uploadImageEvent.emit(this.productImage());
   }
 
   setProductImage({ target }: Event) {
@@ -32,5 +34,15 @@ export class ProductEditComponent {
 
       this.handleUploadImageEvent();
     }
+  }
+
+  unsetProductImage() {
+    this.productImage.set(null);
+
+    this.handleUploadImageEvent();
+  }
+
+  handleFormStateEvent(state: string) {
+    this.formState.emit({ state, data: {} });
   }
 }

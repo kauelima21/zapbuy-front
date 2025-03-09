@@ -3,7 +3,7 @@ import { ProductsService } from './data-access/products.service';
 import { AsyncPipe } from '@angular/common';
 import { LoadingComponent } from '@app/shared/ui/loading/loading.component';
 import { concatMap, Observable, Subscription } from 'rxjs';
-import { ProductResponse } from './products';
+import { ProductRequest, ProductResponse } from './products';
 import { StoresService } from '@app/shared/data-access/stores.service';
 import { StoreResponse } from '@app/shared/interfaces/stores';
 import { ButtonComponent } from '@app/shared/ui/button/button.component';
@@ -12,6 +12,7 @@ import { TableComponent } from '@app/shared/ui/table/table.component';
 import { ColDef, TableActionEvent } from '@app/shared/ui/table/table';
 import { ModalComponent } from '@app/shared/ui/modal/modal.component';
 import { ProductEditComponent } from '@app/admin/dashboard/products/ui/product-edit/product-edit.component';
+import { AddProductsComponent } from '@app/admin/dashboard/products/ui/add-products/add-products.component';
 
 @Component({
   selector: 'app-products',
@@ -22,7 +23,8 @@ import { ProductEditComponent } from '@app/admin/dashboard/products/ui/product-e
     NotFoundComponent,
     TableComponent,
     ModalComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    AddProductsComponent
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
@@ -38,8 +40,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   currentStoreSlug = signal<string>('')
 
   isProductEditModalOpen = signal(false);
+  isAddProductModalOpen = signal(false);
+
+  isFormLoading = signal(false);
+  isImageUploading = signal(false);
 
   currentProduct = signal<ProductResponse | null>(null);
+  productImage = signal<File | null>(null);
+  productImageUploadUrl = signal('');
 
   tableColumnDefs: ColDef[] = [
     {
@@ -121,6 +129,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.products$ = this.productsService.fetchProducts(this.currentStoreSlug());
   }
 
+  openAddProductModal() {
+    this.isAddProductModalOpen.set(true);
+  }
+
   handleCellAction(event: TableActionEvent) {
     if (event.eventName === 'edit') {
       this.isProductEditModalOpen.set(true);
@@ -128,30 +140,72 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // mudar para apenas gerar url e upload apenas no fim da acao
-  handleProductImageUpload(productImage: File | null) {
-    if (!productImage || !this.currentProduct()) return;
+  handleProductImageUpload(productImage: File | null, isCreationAction = false) {
+    this.productImage.set(productImage);
+
+    if (!productImage) {
+      this.productImageUploadUrl.set('');
+      return;
+    }
+
+    if (isCreationAction) return;
+
+    this.isImageUploading.set(true);
 
     this.subscription.add(
       this.productsService.getUploadUrl(
         this.currentStoreSlug(),
         this.currentProduct()?.product_id ?? '',
-        productImage.name,
-        productImage.type
-      ).pipe(
-          concatMap(
-            ({ url }) => this.productsService.uploadProductImage(url, productImage)
-          )
-        ).subscribe(res => {
-          console.log(res);
-          console.log('uplodou');
+        productImage
+      ).subscribe(({ url }) => {
+          this.productImageUploadUrl.set(url);
+          this.isImageUploading.set(false);
       })
     );
   }
 
-  handleModalState(event: string) {
-    if (event === 'closed') {
+  handleModalState(event: {state: string, data: any}) {
+    if (event.state === 'closed') {
       this.isProductEditModalOpen.set(false);
+      this.isAddProductModalOpen.set(false);
+      this.productImageUploadUrl.set('');
     }
+
+    if (event.state === 'edit') {
+      this.updateProductInfo();
+    }
+
+    if (event.state === 'create') {
+      this.createProduct(event.data as ProductRequest);
+    }
+  }
+
+  createProduct(product: ProductRequest) {
+    this.isFormLoading.set(true);
+
+    this.subscription.add(
+      this.productsService.saveProduct(product, this.currentStoreSlug())
+        .pipe(
+          concatMap(
+            ({ product_id }) => this.productsService
+              .getUploadUrl(this.currentStoreSlug(), product_id, this.productImage())
+          ),
+          concatMap(
+            ({ url }) => this.productsService
+              .uploadProductImage(url, this.productImage())
+          )
+        ).subscribe({
+            next: data => {
+              this.isFormLoading.set(false);
+              this.isAddProductModalOpen.set(false);
+              this.loadProducts();
+            }
+          })
+    );
+  }
+
+  updateProductInfo() {
+    // update api
+    // upload image
   }
 }

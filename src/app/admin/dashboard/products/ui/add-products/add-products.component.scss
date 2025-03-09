@@ -1,5 +1,5 @@
-.product-edit {
-  .product-edit-uploads {
+.add-product {
+  .add-product-uploads {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -8,7 +8,7 @@
       display: none;
     }
 
-    .product-edit-uploads-selected-file {
+    .add-product-uploads-selected-file {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -25,13 +25,13 @@
     }
   }
 
-  .product-edit-form {
+  .add-product-form {
     color: var(--secondary);
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
 
-    .product-edit-form-item {
+    .add-product-form-item {
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
@@ -85,7 +85,7 @@
       }
     }
 
-    .product-edit-form-btn-group {
+    .add-product-form-btn-group {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;

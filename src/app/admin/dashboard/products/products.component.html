@@ -6,6 +6,7 @@
       label="Criar novo produto"
       variant="secondary"
       iconName="plus-circle"
+      (click)="openAddProductModal()"
     />
   </header>
 
@@ -49,12 +50,28 @@
 
 @if (isProductEditModalOpen()) {
   <app-modal
-    [modalTitle]="'Editar produto'"
-    (modalState)="handleModalState($event)"
+    [modalTitle]="'Editar produto ' + currentProduct()?.product_id"
+    (modalState)="handleModalState({state: $event, data: null})"
   >
     <app-product-edit
       [product]="currentProduct()"
       (uploadImageEvent)="handleProductImageUpload($event)"
+      (formState)="handleModalState($event)"
+      [isProductEditFormLoading]="isFormLoading()"
+      [isImageUploading]="isImageUploading()"
+    />
+  </app-modal>
+}
+
+@if (isAddProductModalOpen()) {
+  <app-modal
+    modalTitle="Criar novo produto"
+    (modalState)="handleModalState({state: $event, data: null})"
+  >
+    <app-add-products
+      (uploadImageEvent)="handleProductImageUpload($event, true)"
+      (formState)="handleModalState($event)"
+      [isAddProductFormLoading]="isFormLoading()"
     />
   </app-modal>
 }
