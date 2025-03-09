@@ -49,6 +49,7 @@ export class SignInComponent implements OnDestroy {
       this.signInService.signIn({ email, password }).subscribe({
         next: (data) => {
           this.authService.setAuthToken(data.access_token);
+          this.authService.setAuthToken(data.refresh_token);
           this.isLoading.set(false);
           this.router.navigate(['/dashboard']);
         },
